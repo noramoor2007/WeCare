@@ -248,6 +248,73 @@
       </div>
       <div id="affirmations-info" class="resource-info">
         <div class="resource-content">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width">
+          <title>affirmations</title>
+          <link href="style.css" rel="stylesheet" type="text/css" />
+        </head>
+        <body>
+          <h1>Uplifting Affirmations</h1>
+          <h2>Add an Affirmation</h2>
+          <form id="affirmationLibrary">
+            <input type="text" id="new-affirmation" placeholder="Enter a new affirmation">
+            <button type="submit">Add Affirmation</button>
+          </form>
+            <h2>Remove an Affirmation</h2>
+        In order to remove an affirmation, you must select the affirmation, in other words just click on the line that it is on.
+          <form id="removing">
+            <select id="affirmation-list" size="5">
+            </select>
+            <br><button type="submit">Remove Affirmation</button>
+          </form>
+          
+          <script>
+              const affirmations = [];
+              const affirmationDisplay = document.getElementById('affirmation-display');
+              const addAffirmationForm = document.getElementById("affirmationLibrary");
+              const newAffirmationInput = document.getElementById('new-affirmation');
+
+              addAffirmationForm.addEventListener('submit', function (e) {
+                  e.preventDefault();
+                  const newAffirmation = newAffirmationInput.value;
+                  affirmations.push(newAffirmation);
+                  updateAffirmationList();
+                  newAffirmationInput.value = '';
+              });
+
+              const removeAffirmationForm = document.getElementById('removing');
+              const affirmationList = document.getElementById('affirmation-list');
+
+              removeAffirmationForm.addEventListener('submit', function (e) {
+                  e.preventDefault();
+                  const selectedAffirmationIndex = affirmationList.selectedIndex;
+                  if (selectedAffirmationIndex >= 0) {
+                      affirmations.splice(selectedAffirmationIndex, 1);
+                      updateAffirmationList();
+                  }
+              });
+
+              function updateAffirmationList() {
+                  affirmationList.innerHTML = '';
+                  affirmations.forEach(function (affirmation, index) {
+                      const option = document.createElement('option');
+                      option.value = index;
+                      option.text = affirmation;
+                      affirmationList.appendChild(option);
+                  });
+                  displayRandomAffirmation();
+              }
+
+              function displayRandomAffirmation() {
+                  if (affirmations.length > 0) {
+                      const randomIndex = Math.floor(Math.random() * affirmations.length);
+                      affirmationDisplay.innerHTML = `<p>${affirmations[randomIndex]}</p>`;
+                  } else {
+                      affirmationDisplay.innerHTML = '<p>No affirmations available.</p>';
+                  }
+              }
+          </script>
           <div class="video-box">
             <iframe
               width="560"
